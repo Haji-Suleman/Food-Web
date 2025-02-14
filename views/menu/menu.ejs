@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Web</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f8f8f8;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            width: 250px;
+            text-align: center;
+        }
+
+        .product img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #e44d26;
+        }
+
+        .active {
+            font-weight: 900;
+            font-size: 12rem;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../home/Navbar.ejs') %>
+    <main class="menu-content">
+        <br><br><br>    
+            <div class="container">
+                <div class="product" id='1Product'>
+                    <img src="pizza.jpg" alt="Pizza Margherita">
+                    <h3>Pizza Margherita</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>classic italian pizza with fresh tomatoes and basil</p>
+                    <p class="price">$9.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="burger.jpg" alt="Cheeseburger">
+                    <h3>Cheeseburger</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>juicy beef patty with melted cheese and fresh veggies</p>
+                    <p class="price">$6.99</p>                    
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="cake.jpg" alt="Chocolate Cake">
+                    <h3>Chocolate Cake</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>rich and moist chocolate cake with creamy frosting</p>
+                    <p class="price">$4.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="salad.jpg" alt="Grilled Chicken Salad">
+                    <h3>Grilled Chicken Salad</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>fresh greens with grilled chicken and light dressing</p>
+                    <p class="price">$7.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="pasta.jpg" alt="Creamy Alfredo Pasta">
+                    <h3>Creamy Alfredo Pasta</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>creamy pasta with rich alfredo sauce and parmesan</p>
+                    <p class="price">$8.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+                </div>
+                <div class="product">
+                    <img src="tacos.jpg" alt="Mexican Tacos">
+                    <h3>Mexican Tacos</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>soft tortillas filled with seasoned meat and fresh toppings</p>
+                    <p class="price">$5.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="fries.jpg" alt="French Fries">
+                    <h3>French Fries</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>crispy and golden fries with a side of ketchup</p>
+                    <p class="price">$3.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="soup.jpg" alt="Tomato Soup">
+                    <h3>Tomato Soup</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>warm and comforting tomato soup with herbs</p>
+                    <p class="price">$4.49</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="donut.jpg" alt="Glazed Donut">
+                    <h3>Glazed Donut</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>soft and sweet donut with a sugary glaze</p>
+                    <p class="price">$2.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="icecream.jpg" alt="Vanilla Ice Cream">
+                    <h3>Vanilla Ice Cream</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>creamy and smooth vanilla ice cream</p>
+                    <p class="price">$3.49</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+                <div class="product">
+                    <img src="sushi.jpg" alt="Sushi Platter">
+                    <h3>Sushi Platter</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>fresh sushi rolls with soy sauce and wasabi</p>
+                    <p class="price">$12.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+                </div>
+                <div class="product">
+                    <img src="ramen.jpg" alt="Spicy Ramen">
+                    <h3>Spicy Ramen</h3>
+                    <p>&#11088;&#11088;&#11088;&#11088;&#9734;</p>
+                    <p>rich and spicy broth with tender noodles</p>
+                    <p class="price">$10.99</p>
+                    <button onclick="setCartActive(event)">Add To the Cart</button>
+
+                </div>
+
+        </main>
+<br><br><br><br><br><br><br><br><br><br>
+        <script>
+            function setCartActive(event) {
+                event.currentTarget.classList.add("cartactive"); // Example: Add active class
+                alert("Item added to cart!"); // Temporary feedback
+            }
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #e3eeff;
+        }
+
+        .container {
+            width: 380px;
+            padding: 30px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #1877f2;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        input:focus {
+            border-color: #1877f2;
+            background: white;
+            box-shadow: 0 0 5px rgba(24, 119, 242, 0.3);
+        }
+
+        .btn {
+            width: 100%;
+            background: #1877f2;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #0d65d9;
+        }
+
+        .toggle {
+            margin-top: 12px;
+            color: #1877f2;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('../home/Navbar.ejs') %>
+    <div class="container">
+        <h2 id="formTitle">Login</h2>
+
+        <!-- Login Form -->
+        <form id="loginForm" action="/loginregisterForm/login" method="POST">
+            <div class="form-group">
+                <input type="email" name="email" id="loginEmail" placeholder="Email" required>
+                <p class="error" id="loginEmailError">Invalid email format</p>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" id="loginPassword" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <!-- Registration Form -->
+        <form id="registerForm" action="/Sign/data" method="POST" enctype="multipart/form-data" class="hidden">
+            <div class="form-group">
+                <input type="text" name="name" id="registerName" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" id="registerEmail" placeholder="Email" required>
+                <p class="error" id="registerEmailError">Invalid email format</p>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" id="registerPassword" placeholder="Password" required>
+                <p class="error" id="passwordStrength">Password must be at least 6 characters</p>
+            </div>
+            <div class="form-group">
+                <label for="profileImage">Upload Profile Image</label>
+                <input type="file" name="profileImage" id="profileImage" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+
+        <p class="toggle" onclick="toggleForms()">Don't have an account? Create one</p>
+    </div>
+
+    <script>
+        function toggleForms() {
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            const formTitle = document.getElementById("formTitle");
+            const toggleText = document.querySelector(".toggle");
+
+            loginForm.classList.toggle("hidden");
+            registerForm.classList.toggle("hidden");
+
+            formTitle.innerText = loginForm.classList.contains("hidden") ? "Register" : "Login";
+            toggleText.innerText = loginForm.classList.contains("hidden") ? "Already have an account? Login" : "Don't have an account? Create one";
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        document.getElementById("registerForm").addEventListener("submit", function (event) {
+            const email = document.getElementById("registerEmail").value;
+            const password = document.getElementById("registerPassword").value;
+            const emailError = document.getElementById("registerEmailError");
+            const passwordError = document.getElementById("passwordStrength");
+
+            let isValid = true;
+
+            if (!validateEmail(email)) {
+                emailError.style.display = "block";
+                isValid = false;
+            } else {
+                emailError.style.display = "none";
+            }
+
+            if (password.length < 6) {
+                passwordError.style.display = "block";
+                isValid = false;
+            } else {
+                passwordError.style.display = "none";
+            }
+
+            if (!isValid) event.preventDefault();
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+            const emailError = document.getElementById("loginEmailError");
+
+            if (!validateEmail(email)) {
+                emailError.style.display = "block";
+                return;
+            } else {
+                emailError.style.display = "none";
+            }
+
+            try {
+                const response = await fetch("/loginregisterForm/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(data.success ? "Login successful" : "Invalid email or password");
+                    if (data.success) window.location.href = "/welcome";
+                } else {
+                    alert("Server error. Try again.");
+                }
+            } catch (error) {
+                alert("Network error. Try again.");
+            }
+        });
+    </script>
+</body>
+</html>
